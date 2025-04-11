@@ -1,8 +1,8 @@
-# 🖼️ Image Filter App
+# Image Filter App
 
 A full-stack web application built using **React** and **Go** that allows users to upload an image, apply various filters (like Grayscale, Invert, Brightness, etc.), and download the processed image.
 
-## ✨ Features
+## Features
 
 - Upload images from local device
 - Apply filters like:
@@ -13,7 +13,7 @@ A full-stack web application built using **React** and **Go** that allows users 
 - Download the filtered image
 - Clean and responsive frontend
 
-## ⚙️ Tech Stack
+##  Tech Stack
 
 | Layer       | Technology         |
 |-------------|--------------------|
