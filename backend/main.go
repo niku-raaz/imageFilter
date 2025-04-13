@@ -51,7 +51,15 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
         filtered = imaging.AdjustContrast(img,20)
         filtered=  imaging.AdjustBrightness(filtered,20)
     case "special":
-        filtered= imaging.AdjustContrast(img,20)
+        filtered = imaging.Convolve3x3(
+            img,
+            [9]float64{
+                -1, -1, 0,
+                -1, 1, 1,
+                0, 1, 1,
+            },
+            nil,
+        )
         
     default:
         filtered = img
