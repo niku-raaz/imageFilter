@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
+import "./App.css";
+import RealTimeEditor from "./RealTimeEditor";
 
 function App() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [filteredImage, setFilteredImage] = useState(null);
   const [filter, setFilter] = useState("grayscale");
+  const [currentPage, setCurrentPage] = useState("filters"); // "filters" or "realtime"
 
   const handleImageChange = (e) => {
     setSelectedImage(e.target.files[0]);
@@ -38,173 +41,124 @@ function App() {
     }
   };
 
+  // Render real-time editor if on that page
+  if (currentPage === "realtime") {
+    return <RealTimeEditor onGoHome={() => setCurrentPage("filters")} />;
+  }
+
   return (
-    <div  style={{ 
-       textAlign: "center",
-       //padding: "40px", 
-       fontFamily: "Arial", 
-       backgroundColor:"#990000",
-       width: "100vw",          
-       height: "100vh",          
-       margin: 0,
-       display:"flex",
-       flexDirection: "column",    
-       minHeight: "100vh",     
-       justifyContent: "space-between",  
-       
+    <div className="app-container">
+      {/* Header */}
+      <header className="header">
+        <div className="header-content">
+          <h1 className="app-title">AuraFX</h1>
+          <div className="header-subtitle">Premium Image Filter Studio</div>
+          <div className="navigation">
+            <button 
+              className={`nav-btn ${currentPage === "filters" ? "active" : ""}`}
+              onClick={() => setCurrentPage("filters")}
+            >
+              Quick Filters
+            </button>
+            <button 
+              className={`nav-btn ${currentPage === "realtime" ? "active" : ""}`}
+              onClick={() => setCurrentPage("realtime")}
+            >
+              Real-Time Editor
+            </button>
+          </div>
+        </div>
+      </header>
 
-       }}>
+      {/* Main Content */}
+      <main className="main-content">
+        <div className="content-wrapper">
+          {/* File Upload Section */}
+          <div className="upload-section">
+            <div className="file-input-container">
+              <label htmlFor="file-input" className="file-input-label">
+                <div className="upload-icon">UPLOAD</div>
+                <span>Choose Image</span>
+              </label>
+              <input
+                id="file-input"
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="file-input"
+              />
+              {selectedImage && (
+                <div className="file-name">{selectedImage.name}</div>
+              )}
+            </div>
+          </div>
 
-      <div style={{
-          content:"centre",
-          padding: "8px 10px",
-          backgroundColor: "black",
-          color: "#E50914",
-          
-          borderRadius: "2px",
-        }} >
-      <h1>AuraFX</h1>
+          {/* Filter Selection */}
+          <div className="filter-section">
+            <label className="filter-label">Select Filter</label>
+            <select
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              className="filter-select"
+            >
+              <option value="grayscale">Grayscale</option>
+              <option value="blur">Blur</option>
+              <option value="invert">Invert</option>
+              <option value="sepia">Sepia</option>
+              <option value="special">Special</option>
+            </select>
+          </div>
 
-      </div>
+          {/* Apply Button */}
+          <div className="button-section">
+            <button onClick={handleSubmit} className="apply-button">
+              <span className="button-icon"></span>
+              Apply Filter
+            </button>
+          </div>
 
-      <div style={{
-        flex: 1,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "flex-start", // This centers your buttons vertically
-        
+          {/* Filtered Image Display */}
+          {filteredImage && (
+            <div className="result-section">
+              <h3 className="result-title">Your Enhanced Image</h3>
+              <div className="image-container">
+                <img
+                  src={filteredImage}
+                  alt="Filtered"
+                  className="filtered-image"
+                />
+              </div>
+              <a
+                href={filteredImage}
+                download={`auraFX_${filter}.jpg`}
+                className="download-button"
+              >
+                <span className="download-icon"></span>
+                Download Image
+              </a>
+            </div>
+          )}
+        </div>
+      </main>
 
-
-      }}>
-
-
-
-<div style={{
-        padding:"20px 20px",
-        fontWeight:"bold",
-
-      }}>
-      <input type="file" accept="image/*" onChange={handleImageChange} />
-
-      </div>
-      
-      <br /><br />
-      <div>
-      <select value={filter} onChange={(e) => setFilter(e.target.value)}>
-        <option value="grayscale">Grayscale</option>
-        <option value="blur">Blur</option>
-        <option value="invert">Invert</option>
-        <option value="sepia">Sepia</option>
-        <option value="special">Special</option>
-    
-      </select>
-
-      </div>
-
-      
-      <br /><br />
-
-      <div style={{
-        padding:"10px 10px"
-      }}>
-      <button
-        onClick={handleSubmit}
-        style={{
-          padding: "10px 20px",
-          backgroundColor: "black",
-          color: "white",
-          border: "none",
-          borderRadius: "5px",
-          cursor: "pointer"
-        }}
-      >
-        Apply Filter
-      </button>
-      </div>
-
-      
-
-      {filteredImage && (
-        <div style={{ marginTop: "30px" ,marginBottom:"30px",}}>
-          <h3>Filtered Image:</h3>
-          <img
-            src={filteredImage}
-            alt="Filtered"
-            style={{ maxWidth: "300px", borderRadius: "10px" }}
-          />
-          <br /><br />
+      {/* Footer */}
+      <footer className="footer">
+        <div className="footer-content">
+          <div className="credits">
+            <span className="credit-text">Crafted with passion by</span>
+            <span className="author-name">Niku Raj</span>
+          </div>
           <a
-            href={filteredImage}
-            download={`filtered_${filter}.jpg`}
-            style={{
-              textDecoration: "none",
-              backgroundColor: "black",
-              color: "white",
-              padding: "10px 20px",
-              borderRadius: "5px"
-            }}
+            href="https://github.com/niku-raaz"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="github-link"
           >
-            Download Image
+            <span className="github-icon"></span>
+            GitHub
           </a>
         </div>
-      )}
-      </div>
-      
-     
-
-      <div style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        height: "10vh",
-        content:"centre",
-        padding: "20px 10px",
-        backgroundColor: "black",
-        color: "#E50914",
-        borderRadius: "2px",
-        fontFamily: "Arial", 
-        margintop: "20px"
-      }}>
-        <div style={{
-          fontWeight:"bold"
-
-        }}>
-        Made by: Niku Raj
-
-        </div>
-        
-        
-
-        <div flex style={{
-        backgroundColor: "#FF0000",
-        color: "white",
-        padding: "10px",
-        textAlign: "center",
-        borderRadius: "30px",
-        fontFamily: "Arial",
-        width: "fit-content",
-        margin: "auto",
-        marginTop: "20px",
-        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)"
-        }}>
-          <a 
-          href="https://github.com/niku-raaz" 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          style={{
-          color: "black",
-          textDecoration: "none",
-          fontWeight: "bold"
-    }}
-  >
-   Github
-  </a>      
-  
-
-    </div>
-        
-      </div>
+      </footer>
     </div>
   );
 }
