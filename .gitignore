@@ -1,0 +1,17 @@
+# Node modules
+frontend/node_modules/
+
+# Build outputs (React)
+frontend/build/
+
+# Go build outputs
+backend/main.exe
+backend/main
+backend/*.exe
+backend/*.out
+backend/*.test
+
+# OS/Editor files
+.DS_Store
+Thumbs.db
+*.log
