@@ -1,6 +1,6 @@
-# AuraFX - Premium Image Filter Studio
+# IMage Editor
 
-AuraFX is a modern web application for real-time image editing and quick filter application. Built with React (frontend) and Go (backend), it allows you to upload images, apply a variety of effects, and download the results—all in a beautiful, dark-themed interface.
+This is a modern web application for real-time image editing and quick filter application. Built with React (frontend) and Go (backend), it allows you to upload images, apply a variety of effects, and download the results—all in a beautiful, dark-themed interface.
 
 ---
 
@@ -29,7 +29,7 @@ AuraFX is a modern web application for real-time image editing and quick filter 
 
 1. **Clone the repository:**
    ```sh
-   git clone https://github.com/your-username/your-repo.git
+   git clone https://github.com/niku-raaz/imageFilter.git
    cd your-repo
    ```
 
